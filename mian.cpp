@@ -41,8 +41,6 @@ int main() {
 				double u = double(i) / (static_cast<double>(imageWidth - 1));
 				double v = double(j) / (static_cast<double>(imageHeight - 1));
 			
-				//color pixel_color((double(i) / (static_cast<double>(imageWidth - 1))), (double(j) / (static_cast<double>(imageHeight - 1))), 0.25);
-				
 				ray r(origin, lowerLeftCorver + u * horizontal + v * vertical - origin);
 				color pixelColor = rayColor(r);
 
@@ -52,6 +50,5 @@ int main() {
 	}
 
 	MyFile.close();
-
 	return 0;
 }
