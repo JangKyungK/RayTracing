@@ -14,17 +14,17 @@ double hitSphere(const point3& center, double radius, const ray& r)
 {
 	// a = dot(b, b) , b = 2 * dot(b, A - C), c = dot( (A-C), (A-C) ) - radius*radius
 	vec3 oc = r.origin() - center;
-	double a = dot(r.direction(), r.direction());
-	double b = 2 * dot(r.direction(), oc);
-	double c = dot(oc, oc) - radius * radius;
-	double discriminant = b * b - 4 * a * c;	//from quadratic equation
+	double a = r.direction().lengthSquared();
+	double bHalved = dot(r.direction(), oc);		
+	double c = oc.lengthSquared() -radius * radius;
+	double discriminant = bHalved * bHalved - 4 * a * c;	//from quadratic equation
 	if (discriminant < 0)				// true -> the ray hits the ball, false -> does not
 	{
 		return -1.0;
 	}
 	else
 	{
-		return (-b - sqrt(discriminant)) / (2.0 * a);
+		return (-bHalved - sqrt(discriminant)) / (a);
 	}				
 }
 
