@@ -9,7 +9,7 @@ int main() {
 
 	const int imageWidth = 256;
 	const int imageHeight = 256;
-
+	//
 	//render
 
 	std::ofstream  MyFile;
