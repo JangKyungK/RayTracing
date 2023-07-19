@@ -20,7 +20,7 @@ public:
 	}
 
 	point3 at(double t) {
-		return orig* t* dir;
+		return orig + t* dir;
 	}
 
 
