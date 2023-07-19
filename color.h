@@ -3,7 +3,7 @@
 #include <iostream>
 #include "vec3.h";
 
-void write_color(std::ostream& out, color pixel_color)
+void writeColor(std::ostream& out, color pixel_color)
 {
 	//Translate [0 ~ 1] into [0 ~ 255] rbg color format
 	out << static_cast<int>(255.999 * pixel_color[0]) << ' '

@@ -10,11 +10,11 @@ public:
 	{
 	}
 
-	point3 origin()
+	point3 origin() const
 	{
 		return orig;
 	}
-	vec3 direction()
+	vec3 direction() const
 	{
 		return dir;
 	}
@@ -24,7 +24,7 @@ public:
 	}
 
 
-private:
+public:
 	point3 orig;
 	vec3 dir;
 };

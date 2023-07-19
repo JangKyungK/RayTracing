@@ -4,14 +4,31 @@
 #include "color.h";
 #include "ray.h";
 
+
+color rayColor(const ray& r)
+{
+	vec3 unitDirection = unitVector(r.direction());
+	double t = 0.5 * (unitDirection.y() + 1.0);
+	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+}
+
 int main() {
 	//image 
+	const double AspectRatio = 16.0 / 9.0;
+	const int imageWidth = 400;
+	const int imageHeight = static_cast<int>(static_cast<double>(imageWidth) / AspectRatio);
 
-	const int imageWidth = 256;
-	const int imageHeight = 256;
-	//
+	//Camera view set up
+	const double viewportHeight = 2.0;
+	const double viewportWidth = 2.0 * AspectRatio;
+	const double focalLength = 1.0;
+
+	point3 origin = point3(0.0, 0.0, 0.0);
+	vec3 horizontal = vec3(viewportHeight, 0, 0);
+	vec3 vertical = vec3(0, viewportWidth, 0);
+	vec3 lowerLeftCorver = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focalLength);
+
 	//render
-
 	std::ofstream  MyFile;
 	MyFile.open("file.txt");
 	if (MyFile.is_open()) {
@@ -21,19 +38,15 @@ int main() {
 		for (int j = imageWidth - 1; j >= 0; --j) {
 			for (int i = 0; i < imageHeight; ++i) {
 
-				//double r = double(i) / (static_cast<double>(imageWidth - 1));
-				//double g = double(j) / (static_cast<double>(imageHeight - 1));
-				//double b = 0.25;
-				// Repaced by the below constructor
-				color pixel_color((double(i) / (static_cast<double>(imageWidth - 1))), (double(j) / (static_cast<double>(imageHeight - 1))), 0.25);
+				double u = double(i) / (static_cast<double>(imageWidth - 1));
+				double v = double(j) / (static_cast<double>(imageHeight - 1));
+			
+				//color pixel_color((double(i) / (static_cast<double>(imageWidth - 1))), (double(j) / (static_cast<double>(imageHeight - 1))), 0.25);
 				
-				/*int ir = static_cast<int>(255.999 * r);
-				int ig = static_cast<int>(255.999 * g);
-				int ib = static_cast<int>(255.999 * b);*/
-				//MyFile << ir << ' ' << ig << ' ' << ib << '\n';
-				// Repaced by the below function
+				ray r(origin, lowerLeftCorver + u * horizontal + v * vertical - origin);
+				color pixelColor = rayColor(r);
 
-				write_color(MyFile, pixel_color);
+				writeColor(MyFile, pixelColor);
 			}
 		}
 	}
