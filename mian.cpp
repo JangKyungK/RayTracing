@@ -14,10 +14,12 @@ double hitSphere(const point3& center, double radius, const ray& r)
 {
 	// a = dot(b, b) , b = 2 * dot(b, A - C), c = dot( (A-C), (A-C) ) - radius*radius
 	vec3 oc = r.origin() - center;
+
+	// lengthSquared() -> function OK
 	double a = r.direction().lengthSquared();
 	double bHalved = dot(r.direction(), oc);		
 	double c = oc.lengthSquared() -radius * radius;
-	double discriminant = bHalved * bHalved - 4 * a * c;	//from quadratic equation
+	double discriminant = bHalved * bHalved - a * c;	//from quadratic equation
 	if (discriminant < 0)				// true -> the ray hits the ball, false -> does not
 	{
 		return -1.0;
@@ -36,6 +38,7 @@ color rayColor(const ray& r)
 		vec3 norm = unitVector(r.at(t) - vec3(0, 0, -1));
 		return 0.5 * color(norm.x() + 1.0, norm.y() + 1.0, norm.z() + 1.0);
 	}
+	//
 	vec3 unitDirection = unitVector(r.direction());							//unitVector range [-1.0 ~ 1.0]
 	t = 0.5 * (unitDirection.y() + 1.0);								//range [-1.0 ~ 1.0] -> [0.0 ~1.0]
 	//return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);		//lerp(a,b,t) = a + (b - a)*t
